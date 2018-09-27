@@ -1,0 +1,289 @@
+.fb-social-discussion-component {
+  /* Start: Fix for mobile scrollbar */
+  /* End: Fix for mobile scrollbar */
+}
+.fb-social-discussion-component .social-comment-form {
+  background-color: #f1453d;
+}
+.fb-social-discussion-component .social-comment-form img {
+  display: none;
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component .social-comment-form {
+    background-color: transparent;
+  }
+}
+.fb-social-discussion-component #comment {
+  display: inline-block;
+  width: 80%;
+  margin: 0;
+  padding: 13px;
+  border: none;
+  box-shadow: 0px 0px 13px 1px rgba(0, 0, 0, 0.2);
+  font-family: @font-family;
+  border-radius: 0;
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component #comment {
+    width: calc((100% - 26px));
+    margin: 0;
+  }
+}
+.fb-social-discussion-component .hidden-comments .items-start {
+  display: none;
+}
+.fb-social-discussion-component .hidden-comments .social-comment-form {
+  margin-bottom: 25px;
+}
+.fb-social-discussion-component .btnSubmit {
+  padding: 11px 0;
+  width: 15%;
+  margin-left: -3px;
+}
+.fb-social-discussion-component .btnSubmit:hover {
+  background-color: #f1453d !important;
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component .btnSubmit {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 1px;
+  }
+}
+.fb-social-discussion-component .items-start {
+  background-color: #ffffff;
+  box-shadow: 0px 0px 13px 1px rgba(0, 0, 0, 0.2);
+}
+.fb-social-discussion-component .social-comment-box {
+  padding: 10px;
+}
+.fb-social-discussion-component .btnSort {
+  text-transform: uppercase;
+  font-family: @font-family;
+  cursor: pointer;
+}
+.fb-social-discussion-component .btnSort.btnSort-active {
+  border-bottom: 2px solid #f1453d;
+}
+.fb-social-discussion-component #comments {
+  list-style: none;
+  margin-top: 20px;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+.fb-social-discussion-component #comments > li {
+  padding: 10px 10px 10px 10px;
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+  background-color: #f6f6f6;
+  width: 97%;
+  margin: 20px auto;
+
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component #comments > li {
+    width: 90%;
+  }
+}
+.fb-social-discussion-component #comments .sub-comments {
+  list-style: none;
+  margin-top: 6px;
+}
+.fb-social-discussion-component #comments .sub-comments .user-info {
+  border: none;
+}
+.fb-social-discussion-component #comments .sub-comments > li {
+  border-top: 1px solid #ececec;
+  padding-top: 10px;
+}
+.fb-social-discussion-component #comments .user-description {
+  position: relative;
+  margin-bottom: 6px;
+}
+.fb-social-discussion-component #comments .user-photo,
+.fb-social-discussion-component #comments .user-points {
+  display: none;
+}
+.fb-social-discussion-component #comments .user-info {
+  position: relative;
+  font-size: 14px;
+  font-family: @font-family;
+  height: auto;
+  border-bottom: 1px solid #ececec;
+  word-break: break-word;
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component #comments .user-info {
+    font-size: 12px;
+  }
+}
+.fb-social-discussion-component #comments .user-username {
+  display: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component #comments .user-username {
+    width: 40%;
+  }
+}
+.fb-social-discussion-component #comments .user-specs {
+  display: inline-block;
+  width: 100%;
+}
+.fb-social-discussion-component #comments .user-specs .user-location {
+  display: none;
+}
+.fb-social-discussion-component #comments .user-specs span {
+  margin: 0 3%;
+}
+.fb-social-discussion-component #comments .user-specs .user-date {
+  //margin-left: 0;
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component #comments .user-specs span {
+    margin: 0 3px;
+  }
+}
+.fb-social-discussion-component #comments .user-comment {
+  font-family: @font-family;
+  font-size: 24px;
+  line-height: 28px;
+  word-wrap: break-word;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component #comments .user-comment {
+    font-size: 18px;
+  }
+}
+.fb-social-discussion-component #comments .vote-top {
+  position: absolute;
+  font-family: @font-family;
+  font-size: 14px;
+  top: 0;
+  right: 0;
+}
+.fb-social-discussion-component #comments .vote-top .favorite-container {
+  position: relative;
+  padding-left: 40px;
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component #comments .vote-top {
+    font-size: 12px;
+  }
+}
+.fb-social-discussion-component #comments .vote-bottom {
+  padding-left: 20px;
+  display: inline-block;
+}
+.fb-social-discussion-component #comments .vote i {
+  position: absolute;
+  margin-top: 3px;
+  margin-left: -18px;
+}
+.fb-social-discussion-component #comments .reply-count {
+  display: inline-block;
+}
+.fb-social-discussion-component #comments .reply-count i,
+.fb-social-discussion-component #comments .reply-count span {
+  display: none;
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component #comments .reply-count {
+    display: none;
+  }
+}
+.fb-social-discussion-component #comments .subComments {
+  margin-top: 22px;
+  position: relative;
+  height: 50px;
+}
+.fb-social-discussion-component #comments .subComments input {
+  position: absolute;
+  width: 80%;
+  line-height: 1.5em;
+  outline: none;
+}
+.fb-social-discussion-component #comments .subComments .subComment {
+  position: absolute;
+  margin-top: 0;
+  right: 0;
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component #comments .subComments .subComment {
+    padding: 15px 20px 8px 20px;
+  }
+}
+.fb-social-discussion-component #comments .favorite-container {
+  position: relative;
+  display: inline-block;
+}
+.fb-social-discussion-component #comments .material-icons {
+  font-size: 16px;
+}
+.fb-social-discussion-component #comments .reply-button {
+  position: relative;
+  float: right;
+}
+.fb-social-discussion-component #comments .reply-button i {
+  background-color: #f1453d;
+  color: #ffffff;
+  border-radius: 50%;
+  font-weight: bold;
+  position: absolute;
+  margin-left: -20px;
+  margin-top: 2px;
+}
+.fb-social-discussion-component #comments .like-text {
+  padding-left: 3px;
+}
+.fb-social-discussion-component #comments .toggleReply {
+  padding-left: 30px;
+}
+.fb-social-discussion-component #comments .toggleReply i {
+  font-size: 18px;
+  position: absolute;
+  margin-top: 3px;
+  margin-left: -20px;
+  cursor: pointer;
+}
+.fb-social-discussion-component #comments .reply-button,
+.fb-social-discussion-component #comments .like-text,
+.fb-social-discussion-component #comments .toggleReply {
+  position: relative;
+  color: #f1453d;
+  font-size: 14px;
+  font-family: @font-family;
+  cursor: pointer;
+}
+@media all and (max-width: 640px) {
+  .fb-social-discussion-component #comments .reply-button,
+  .fb-social-discussion-component #comments .like-text,
+  .fb-social-discussion-component #comments .toggleReply {
+    font-size: 12px;
+  }
+}
+.fb-social-discussion-component #comments .vote-bottom i {
+  color: #f1453d;
+  cursor: pointer;
+}
+.fb-social-discussion-component #commentTemplate {
+  display: none;
+}
+.fb-social-discussion-component .hidden {
+  display: none;
+}
+@media (hover: none) {
+  .fb-social-discussion-component ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+  .fb-social-discussion-component ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "adapt-sr-firebase-social",
+  "version": "2.1.2",
+  "framework": ">=2.0.11",
+  "homepage": "",
+  "issues": "",
+  "displayName" : "Firebase Social Discussion",
+  "component" : "fb-social-discussion",
+  "description": "Firebase social discussion board",
+  "main": "/js/adapt-sr-firebase-social.js",
+  "keywords": [
+    "adapt-plugin",
+    "adapt-component"
+  ],
+  "license": "GPLv3"
+}
