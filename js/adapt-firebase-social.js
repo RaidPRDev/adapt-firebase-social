@@ -1,4 +1,4 @@
-define('components/adapt-firebase-social/js/adapt-firebase-social',[
+define('components/adapt-sr-firebase-social/js/adapt-sr-firebase-social',[
 'require',
 'coreViews/componentView',
 'coreJS/adapt'],
@@ -20,13 +20,9 @@ function(require) {
 		postRender: function() {
 			var parent = this;
 			this.pointsData = [];
-			var ref = firebase
-				.database()
-				.ref('chat/' + this.model.get('_firebaseID'));
 
+            var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
 			ref.on('child_added', function(snapshot) {
-
-				// console.log("postRender");
 
 				if (snapshot.exists()) {
                     console.log("postRender");
@@ -85,9 +81,8 @@ function(require) {
 		addComment: function(id, comment) {
 			var parent = this;
 			var name = Adapt.fullName;
-			var ref = firebase
-				.database()
-				.ref('chat/' + this.model.get('_firebaseID'));
+
+            var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
 			var upvotesMod = ref.child(id).child('upvotesMod');
 			var post = this.$el.find('#commentTemplate')
 				.clone()
@@ -146,10 +141,8 @@ function(require) {
 		},
 		pushComment: function(ev) {
 			var that = this;
-			var ref = firebase
-				.database()
-				.ref('chat/' + this.model.get('_firebaseID'));
-			var name = Adapt.fullName;
+			var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
+            var name = Adapt.fullName;
 			var location = Adapt.userLocation;
 			var ldap = Adapt.userLDAP;
 			var time = this.timeStamp();
@@ -194,9 +187,7 @@ function(require) {
 			return false;
 		},
 		deleteComment: function(ev) {
-			var ref = firebase
-				.database()
-				.ref('chat/' + this.model.get('_firebaseID'));
+			var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
 			var id = $(ev.currentTarget)
 				.closest('li')
 				.data('id');
@@ -213,10 +204,7 @@ function(require) {
             let obj = pointsData.find(x => x.id === stringID);
             let index = pointsData.indexOf(obj);
 
-            var ref = firebase
-                .database()
-                .ref('chat/' + this.model.get('_firebaseID'));
-
+            var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
             var name = Adapt.fullName;
 
             var upvotesRef = ref.child(id + '/upvotes');
@@ -348,11 +336,9 @@ function(require) {
 			$('.sortTime').addClass('btnSort-active');
 			$("#comments[data-id='" + this.model.get('_id') + "']").empty();
 			var parent = this;
-			var ref = firebase
-				.database()
-				.ref('chat/' + this.model.get('_firebaseID'));
 
-			ref.on('child_added', function(snapshot) {
+            var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
+            ref.on('child_added', function(snapshot) {
 				if (snapshot.exists()) {
 					var id = snapshot.key;
 					var comment = snapshot.val();
