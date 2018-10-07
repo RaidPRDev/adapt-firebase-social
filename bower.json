@@ -1,13 +1,13 @@
 {
-  "name": "adapt-sr-firebase-social",
-  "version": "2.1.2",
-  "framework": ">=2.0.11",
+  "name": "adapt-firebase-social",
+  "version": "1.0.0",
+  "framework": ">=3.0.0",
   "homepage": "",
   "issues": "",
   "displayName" : "Firebase Social Discussion",
   "component" : "fb-social-discussion",
   "description": "Firebase social discussion board",
-  "main": "/js/adapt-sr-firebase-social.js",
+  "main": "/js/adapt-firebase-social.js",
   "keywords": [
     "adapt-plugin",
     "adapt-component"
