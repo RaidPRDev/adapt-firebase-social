@@ -1,294 +1,359 @@
-
-@fb-social-color: #f1453d;
-@fb-social-primary-color: #6d00ce;
-
 .fb-social-discussion-component {
-  /* Start: Fix for mobile scrollbar */
-  /* End: Fix for mobile scrollbar */
-}
-.fb-social-discussion-component .social-comment-form {
-  background-color: @fb-social-primary-color;
-}
-.fb-social-discussion-component .social-comment-form img {
-  display: none;
-}
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component .social-comment-form {
-    background-color: transparent;
-  }
-}
-.fb-social-discussion-component #comment {
-  display: inline-block;
-  width: 80%;
-  margin: 0;
-  padding: 13px;
-  border: none;
-  box-shadow: 0px 0px 13px 1px rgba(0, 0, 0, 0.2);
-  font-family: @font-family;
-  border-radius: 0;
-}
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component #comment {
-    width: calc((100% - 26px));
-    margin: 0;
-  }
-}
-.fb-social-discussion-component .hidden-comments .items-start {
-  display: none;
-}
-.fb-social-discussion-component .hidden-comments .social-comment-form {
-  margin-bottom: 25px;
-}
-.fb-social-discussion-component .btnSubmit {
-  padding: 0;
-  width: 18%;
-  margin-left: 0;
-}
-.fb-social-discussion-component .btnSubmit:hover {
-  background-color: @fb-social-primary-color !important;
-}
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component .btnSubmit {
-    width: 100%;
-    margin: 0 auto;
-    margin-bottom: 1px;
-  }
-}
-.fb-social-discussion-component .items-start {
-  background-color: #ffffff;
-  box-shadow: 0px 0px 13px 1px rgba(0, 0, 0, 0.2);
-}
-.fb-social-discussion-component .social-comment-box {
-  padding: 10px;
-}
-.fb-social-discussion-component .btnSort {
-  text-transform: uppercase;
-  font-family: @font-family;
-  cursor: pointer;
-}
-.fb-social-discussion-component .btnSort.btnSort-active {
-  border-bottom: 2px solid @fb-social-primary-color;
-}
-.fb-social-discussion-component #comments {
-  list-style: none;
-  margin-top: 8px;
-  overflow: scroll;
-  -webkit-overflow-scrolling: touch;
-}
-.fb-social-discussion-component #comments > li {
-  padding: 10px 10px 10px 10px;
-  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
-  background-color: #f6f6f6;
-  width: 97%;
-  margin: 20px auto;
 
+    @fb-social-color: #f1453d;
+    @fb-social-primary-color: #6d00ce;
+
+    font-family: @font-family;
+
+    .fb-btn-transition {
+        -webkit-transition: all .35s ease-in-out;
+        transition: all .35s ease-in-out;
+    }
+
+    // global text input field box
+    .fb-social-input-box {
+        font-family: @font-family;
+        display: inline-block;
+        margin: 0;
+        padding: 15px;
+        border: none;
+        box-shadow: 0px 0px 13px 1px rgba(0, 0, 0, 0.075);
+        border-radius: 4px;
+        border: 1px solid lighten(@black, 40%);
+        vertical-align: initial;
+        outline: none;
+    }
+
+    // for input fields
+    #comment.error::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: red;
+        opacity: 1; /* Firefox */
+    }
+    #comment.error:-ms-input-placeholder { /* Internet Explorer 10-11 */
+        color: red;
+    }
+    #comment.error::-ms-input-placeholder { /* Microsoft Edge */
+        color: red;
+    }
+
+    // input field states
+    input[type=text]#comment {
+        -webkit-transition: border .35s ease-in-out;
+        transition: border .35s ease-in-out;
+    }
+
+    input[type="text"]#comment:hover {
+        border: 1px solid lighten(@purple, 15%);
+    }
+
+    input[type="text"]#comment:focus {
+        border: 1px solid lighten(@purple, 40%);
+    }
+
+    // global button control text styles
+    .fb-social-text {
+        color: @fb-social-primary-color;
+        font-size: 14px;
+
+        @media all and (max-width: @device-width-small) {
+            font-size: 12px;
+        }
+    }
+
+    .fb-social-bottom-favorite-text {
+        .fb-social-text;
+        font-size: 18px;
+    }
+
+    .fb-social-text-hover {
+        color: @orange;
+    }
+
+    .fb-social-discussion-inner {
+
+        .hidden { display: none; }
+
+        // main comment input box elements
+        .social-comment-form {
+            padding: 10px 10px 10px 10px;
+
+            #comment {
+                .fb-social-input-box;
+                width: 79%;
+
+                @media all and (max-width: @device-width-small) {
+                    width: 69%;
+                }
+            }
+            .btnSubmit {
+                width: 20%;
+                float: right;
+
+                @media all and (max-width: @device-width-small) {
+                    font-size: 20px;
+                    width: 30%;
+                }
+            }
+
+        }
+
+        // list items from the messages
+        .items-start {
+
+            .social-comment-box {
+
+                #commentTemplate {
+                    display: none;
+                }
+
+                #comments {
+                    list-style: none;
+                    margin-top: 8px;
+                    overflow: scroll;
+                    -webkit-overflow-scrolling: touch;
+
+                    & > li {    // List Item Comment Box
+
+                        padding: 10px 10px 10px 10px;
+                        width: 97%;
+                        margin: 20px auto;
+                        border: 1px solid lighten(@black, 40%);
+                        border-radius: 4px;
+                        background-color: @white;
+                        box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.075);
+
+                        @media all and (max-width: @device-width-small) {
+                            width: 94%;
+                        }
+                    }
+                    .sub-comments { // ul
+                        list-style: none;
+                        margin-top: 6px;
+                    }
+
+                    // USER DESCRIPTION
+                    .user-description {
+                        position: relative;
+                        margin-bottom: 6px;
+
+                        // REPLY COUNT & USER VOTES
+                        .vote {
+                            &.vote-top {
+                                position: absolute;
+                                top: -2px;
+                                right: 0;
+                                .fb-social-text;
+
+                                // REPLY COUNT
+                                .toggle {
+                                    &.reply-count {
+                                        display: inline-block;
+                                        text-transform: uppercase;
+                                    }
+                                }
+                                // USER VOTES
+                                .favorite-container {
+                                    display: inline-block;
+                                    position: relative;
+                                    padding-left: 20px;
+
+                                    @media all and (max-width: @device-width-small) {
+                                        padding-left: 10px;
+                                    }
+
+                                    .f-icon {
+                                        margin: auto 4px;
+                                    }
+                                    .user-votes {
+
+                                    }
+                                }
+                            }
+                        }
+
+                        // USER INFO
+                        .user-photo {}
+
+                        .user-info {
+                            .fb-social-text;
+                            position: relative;
+                            height: auto;
+                            border-bottom: 1px solid #ececec;
+                            margin-right: 0;
+                            margin-left: 0;
+
+                            .user-username {
+                                display: none;
+                            }
+                            .user-specs {
+                                display: inline-block;
+                                width: 100%;
+
+                                & > span:first-child {
+                                    margin: 0 10px 0 0;
+
+                                    @media all and (max-width: @device-width-small) {
+                                        margin: 0 6px 0 0;
+                                    }
+                                }
+                                & > span {
+                                    margin: 0 10px;
+
+                                    @media all and (max-width: @device-width-small) {
+                                        margin: 0 6px;
+                                    }
+                                }
+                                .user-date {}
+                                .user-time {}
+                                .user-name {
+                                    .icon-person {
+                                        font-size: 13px;
+                                        text-align: left;
+                                        margin: auto 6px;
+                                        color: @fb-social-primary-color;
+                                        display: inline-block;
+                                    }
+                                }
+                                .user-points {}
+                                .user-location {}
+                            }
+                            .user-comment {
+                                font-size: 24px;
+                                line-height: 28px;
+                                word-wrap: break-word;
+                                padding-left: 0px;
+                                padding-right: 10px;
+                                color: @black;
+
+                                @media all and (max-width: @device-width-small) {
+                                    font-size: 18px;
+                                    line-height: 24px;
+                                    padding-left: 0px;
+                                    padding-right: 16px;
+
+                                }
+                            }
+
+                        }
+
+                    }
+                    .bottom-interactions {}
+                    .vote-bottom {
+                        cursor: pointer;
+                        &.vote {
+                            padding-left: 0px;
+                            display: inline-block;
+                        }
+                        .favorite-container {
+                            display: inline-block;
+                            position: relative;
+                            padding-left: 0;
+
+                            .f-icon {
+                                margin: auto 4px;
+                            }
+                            & > span {
+                                .fb-social-bottom-favorite-text;
+                                .fb-btn-transition;
+                                //pointer-events: none;
+                            }
+
+                            &.active {
+                                .f-icon, like-text {
+                                    .fb-social-text-hover;
+                                }
+
+
+                            }
+                        }
+                        &:hover {
+                            .favorite-container {
+                                & > span { .fb-social-text-hover; }
+                            }
+                        }
+
+                    }
+                    .toggleReply {
+                        padding-left: 20px;
+                        cursor: pointer;
+
+                        @media all and (max-width: @device-width-small) {
+                            padding-left: 10px;
+                        }
+
+                        & > span {
+                            .fb-social-bottom-favorite-text;
+                            .fb-btn-transition;
+                            pointer-events: none;
+                        }
+                        .f-icon {
+                            margin: auto 4px;
+                        }
+                        .show-reply {}
+
+                        &:hover {
+                            & > span { .fb-social-text-hover; }
+                        }
+                    }
+                    .reply-button {
+                        position: relative;
+                        float: right;
+                        cursor: pointer;
+
+                        &.toggle {
+
+                        }
+                        & > span {
+                            .fb-social-text;
+                            .fb-btn-transition;
+                            pointer-events: none;
+                            text-transform: uppercase;
+                        }
+
+                        .f-icon {
+                            margin: auto 4px;
+                        }
+
+                        &:hover {
+                            & > span { .fb-social-text-hover; }
+                        }
+                    }
+                    .subComments {
+                        margin-top: 15px;
+
+                        #comment {
+                            .fb-social-input-box;
+                            width: 79%;
+
+                            @media all and (max-width: @device-width-small) {
+                                width: 69%;
+                            }
+                        }
+                        .subComment {
+                            width: 20%;
+                            float: right;
+
+                            @media all and (max-width: @device-width-small) {
+                                font-size: 20px;
+                                width: 30%;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
 }
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component #comments > li {
-    width: 90%;
-  }
-}
-.fb-social-discussion-component #comments .sub-comments {
-  list-style: none;
-  margin-top: 6px;
-}
-.fb-social-discussion-component #comments .sub-comments .user-info {
-  border: none;
-}
-.fb-social-discussion-component #comments .sub-comments > li {
-  border-top: 1px solid #ececec;
-  padding-top: 10px;
-}
-.fb-social-discussion-component #comments .user-description {
-  position: relative;
-  margin-bottom: 6px;
-}
-.fb-social-discussion-component #comments .user-photo,
-.fb-social-discussion-component #comments .user-points {
-  display: none;
-}
-.fb-social-discussion-component #comments .user-info {
-  position: relative;
-  font-size: 14px;
-  font-family: @font-family;
-  height: auto;
-  border-bottom: 1px solid #ececec;
-  word-break: break-word;
-}
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component #comments .user-info {
-    font-size: 12px;
-  }
-}
-.fb-social-discussion-component #comments .user-username {
-  display: none;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  vertical-align: top;
-}
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component #comments .user-username {
-    width: 40%;
-  }
-}
-.fb-social-discussion-component #comments .user-specs {
-  display: inline-block;
-  width: 100%;
-}
-.fb-social-discussion-component #comments .user-specs .user-location {
-  display: none;
-}
-.fb-social-discussion-component #comments .user-specs span {
-  margin: 0 3%;
-}
-.fb-social-discussion-component #comments .user-specs .user-date {
-  //margin-left: 0;
-}
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component #comments .user-specs span {
-    margin: 0 3px;
-  }
-}
-.fb-social-discussion-component #comments .user-comment {
-  font-family: @font-family;
-  font-size: 24px;
-  line-height: 28px;
-  word-wrap: break-word;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component #comments .user-comment {
-    font-size: 18px;
-  }
-}
-.fb-social-discussion-component #comments .vote-top {
-  position: absolute;
-  font-family: @font-family;
-  font-size: 14px;
-  top: 0;
-  right: 0;
-}
-.fb-social-discussion-component #comments .vote-top .favorite-container {
-  position: relative;
-  padding-left: 40px;
-}
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component #comments .vote-top {
-    font-size: 12px;
-  }
-}
-.fb-social-discussion-component #comments .vote-bottom {
-  padding-left: 20px;
-  display: inline-block;
-}
-.fb-social-discussion-component #comments .vote i {
-  position: absolute;
-  margin-top: 3px;
-  margin-left: -18px;
-}
-.fb-social-discussion-component #comments .reply-count {
-  display: inline-block;
-}
-.fb-social-discussion-component #comments .reply-count i,
-.fb-social-discussion-component #comments .reply-count span {
-  display: none;
-}
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component #comments .reply-count {
-    display: none;
-  }
-}
-.fb-social-discussion-component #comments .subComments {
-  margin-top: 22px;
-  position: relative;
-  height: 50px;
-}
-.fb-social-discussion-component #comments .subComments input {
-  position: absolute;
-  width: 80%; /* fallback if needed */
-  width: calc(100% - 16em);
-  line-height: 1.5em;
-  outline: none;
-}
-.fb-social-discussion-component #comments .subComments .subComment {
-  position: absolute;
-  margin-top: 0;
-  right: 0;
-}
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component #comments .subComments .subComment {
-    padding: 15px 20px 8px 20px;
-  }
-}
-.fb-social-discussion-component #comments .favorite-container {
-  position: relative;
-  display: inline-block;
-}
-.fb-social-discussion-component #comments .material-icons {
-  font-size: 16px;
-}
-.fb-social-discussion-component #comments .reply-button {
-  position: relative;
-  float: right;
-}
-.fb-social-discussion-component #comments .reply-button i {
-  background-color: @fb-social-primary-color;
-  color: #ffffff;
-  border-radius: 50%;
-  font-weight: bold;
-  position: absolute;
-  margin-left: -20px;
-  margin-top: 2px;
-}
-.fb-social-discussion-component #comments .like-text {
-  padding-left: 3px;
-}
-.fb-social-discussion-component #comments .toggleReply {
-  padding-left: 30px;
-}
-.fb-social-discussion-component #comments .toggleReply i {
-  font-size: 18px;
-  position: absolute;
-  margin-top: 3px;
-  margin-left: -20px;
-  cursor: pointer;
-}
-.fb-social-discussion-component #comments .reply-button,
-.fb-social-discussion-component #comments .like-text,
-.fb-social-discussion-component #comments .toggleReply {
-  position: relative;
-  color: @fb-social-primary-color;
-  font-size: 14px;
-  font-family: @font-family;
-  cursor: pointer;
-}
-@media all and (max-width: 640px) {
-  .fb-social-discussion-component #comments .reply-button,
-  .fb-social-discussion-component #comments .like-text,
-  .fb-social-discussion-component #comments .toggleReply {
-    font-size: 12px;
-  }
-}
-.fb-social-discussion-component #comments .vote-bottom i {
-  color: @fb-social-primary-color;
-  cursor: pointer;
-}
-.fb-social-discussion-component #commentTemplate {
-  display: none;
-}
-.fb-social-discussion-component .hidden {
-  display: none;
-}
+
 @media (hover: none) {
-  .fb-social-discussion-component ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-  }
-  .fb-social-discussion-component ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
-  }
+    .fb-social-discussion-component ::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 7px;
+    }
+    .fb-social-discussion-component ::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, 0.5);
+        -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+    }
 }

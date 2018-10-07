@@ -1,18 +1,9 @@
-<div class="social-inner component-inner " ga-on="mouseover" ga-event-category="Social Component" ga-event-action="Mouseover" ga-event-label="Mouseover Social Component">
-	<div class="social-header component-header">
-		<div class="social-header-inner component-header-inner">
-		</div>
-		<!-- End of social-header-inner -->  
-	  
-	</div>
-	<!-- End of social-header -->  
-
-  
+<div class="fb-social-discussion-inner component-inner " ga-on="mouseover" ga-event-category="Social Component" ga-event-action="Mouseover" ga-event-label="Mouseover Social Component">
+    {{> component this}}
 	<div class="social-comment-form">
-		<form action="#" onsubmit="event.preventDefault();">
-			<img src="https://teams-service.googleplex.com/photos/?sz=50" style="border-radius:50%">
-			<input id="comment" type="text" placeholder="Post a comment..." required="">
-			<button class="btnSubmit " type="submit" ga-event-category="Social Component" ga-event-action="Click" ga-event-label="Submit parent post">SUBMIT</button>
+		<form class="comment-form" action="#" onsubmit="event.preventDefault();">
+			<input id="comment" type="text" placeholder="Post a comment" required="">
+			<button class="btnSubmit " type="submit">SUBMIT</button>
 		</form>
 	</div>
 	<!-- End of social-comment-form -->
@@ -29,20 +20,24 @@
 			<li id="commentTemplate">
 				<div class="user-description">
 						<div class="vote vote-top">
-							<span class="toggle reply-count">replies</span>
-							<div class="flex flex-column items-center favorite-container">
-								<i class="material-icons">favorite</i>
+							<span class="toggle reply-count">REPLIES</span>
+							<div class="flex flex-column favorite-container">
+								<span class="f-icon icon-thumbs-up"></span>
 								<span class="user-votes"></span>
 							</div>
 						</div>
-						<span class="user-photo"></span>
+						<span class="user-photo hidden"></span>
 						<div class="row user-info">
 							<span class="user-username"></span>
 							<div class="user-specs">
-								<span class="user-points"></span>
 								<span class="user-date"></span>
 								<span class="user-time"></span>
-								<span class="user-location"></span>
+								<span class="user-name">
+								    <span class="icon icon-person"></span>
+                                    <span class="username-text"></span>
+                                </span>
+								<span class="user-points hidden"></span>
+								<span class="user-location hidden"></span>
 							</div>
 							<p class="user-comment">test</p>
 						</div>
@@ -51,23 +46,25 @@
 					<!-- End of user-description -->
 					<div class="bottom-interactions"></div>
 					<div class="vote vote-bottom">
-						<div class="flex flex-column items-center favorite-container">
-							<i class="material-icons upvote" data-vote="up" ga-event-category="Social Component" ga-event-action="Click" ga-event-label="Comment">favorite_border</i>
-							<span class="like-text">liked</span>
+						<div class="flex flex-column favorite-container upvote" data-vote="up" data-id="">
+							<span class="f-icon icon-thumbs-up"></span>
+							<span class="like-text">LIKE</span>
 						</div>
 					</div>
 					<!-- End of vote-bottom -->
 					<span class="toggle reply-button">
-						Show replies
+					    <span class="f-icon icon-arrow-down"></span>
+					    <span class="f-icon icon-arrow-up hidden"></span>
+						<span class="show-replies">SHOW REPLIES</span>
 					</span>
 					<span class="toggleReply">
-						<i class="material-icons">reply</i>
-						reply
+						<span class="f-icon icon-share"></span>
+						<span class="show-reply">REPLY</span>
 					</span>
 					<span class="delete">Remove</span>
 					<form class="subComments" style="display: none;">
-						<input id="comment" type="text" placeholder="Reply to post above..." required="">
-						<button class="subComment" ga-event-category="Social Component" ga-event-action="Click" ga-event-label="Submit reply">REPLY</button>
+						<input id="comment" type="text" placeholder="Reply to post" required="">
+						<button class="subComment">REPLY</button>
 					</form>
 					<ul class="sub-comments"></ul>			
 			</li>

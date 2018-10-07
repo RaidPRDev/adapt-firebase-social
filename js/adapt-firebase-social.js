@@ -32,20 +32,61 @@ function(require) {
 			}
 		},
 
-        preRender: function() {
+        initialize: function(){
 
-			this.isFirebaseEnabled = (Adapt.fb !== undefined);
+            this.isFirebaseEnabled = (Adapt.firebase != undefined);
 
-			ComponentView.prototype.preRender.apply(this, arguments);
+            console.log("SocialDiscussion.initialize().fb:", this.isFirebaseEnabled);
+
+            if (this.isFirebaseEnabled )
+			{
+				if (!Adapt.firebase.user)
+				{
+					this.listenTo(Adapt, {
+                        'firebase:signedin': this.onFirebaseSignedIn
+                    });
+				}
+			}
+
+			ComponentView.prototype.initialize.apply(this, arguments);
+        },
+
+		postRender: function() {
+            console.log("SocialDiscussion.postRender().fb:", this.isFirebaseEnabled);
+
+            if (this.isFirebaseEnabled )
+            {
+                if (Adapt.firebase.user)
+                {
+                    this.onFirebaseSignedIn({success:true});
+                }
+            }
+            else this.onFirebaseSignedIn({success:false});
 		},
 
-		postRender: function()
-		{
-			if (this.isFirebaseEnabled)
-			{
+		remove: function() {
+
+            console.log("SocialDiscussion.remove().fb:", this.isFirebaseEnabled);
+
+            this.stopListening(Adapt, 'firebase:signedin');
+
+            ComponentView.prototype.remove.apply(this, arguments);
+		},
+
+        onFirebaseSignedIn: function(result) {
+
+            console.log("SocialDiscussion.onFirebaseSignedIn.success:", result.success);
+
+            this.onSignInComplete();
+		},
+
+		onSignInComplete: function() {
+
+            if (this.isFirebaseEnabled)
+            {
                 var parent = this;
                 this.pointsData = [];
-                var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
+                var ref = Adapt.firebase.database.ref('chat/' + this.model.get('_firebaseID'));
                 ref.on('child_added', function(snapshot)
                 {
                     if (snapshot.exists())
@@ -66,13 +107,13 @@ function(require) {
                         parent.sortByTime();
                     }
                 });
-			}
-			else this.onFirebaseError();
+            }
+            else this.onFirebaseError();
 
-            $('.hidden-comments .items-start').remove();
-			
-			this.setReadyStatus();
-			this.setCompletionStatus();
+            // $('.hidden-comments .items-start').remove();
+
+            this.setReadyStatus();
+            this.setCompletionStatus();
 		},
 
 		findParent: function(parentId)
@@ -82,17 +123,23 @@ function(require) {
 
 		displayComment: function(id, comment)
 		{
-			var $parent = comment.parent ?
+            //console.log("Firebase.SocialChat().id:", id, " comment:", comment);
+            //console.log("Firebase.SocialChat().parent:", comment.parent);
+           	//console.log("Firebase.SocialChat()._id:", this.model.get('_id'));
+            //console.log("Firebase.SocialChat().this.$el:", this.$el);
+
+            var $parent = comment.parent ?
 				this.findParent(comment.parent) :
 				this.$el.find("#comments[data-id='" + this.model.get('_id') + "']");
-				
-			if (this.$el.find("#comments li[data-id=" + id + "]").length > 0) return;
-			
+
+         	if (this.$el.find("#comments li[data-id=" + id + "]").length > 0) return;
+
 			var $el = this.addComment(id, comment);
 			$el.attr('data-id', id);
 			$el.hide();
 			$parent.prepend($el);
 			$el.fadeIn('slow');
+
 			!comment.parent && $el.addClass('parent');
 
 			this.$el.find("#comments[data-id='" + this.model.get('_id') + "']")
@@ -103,15 +150,11 @@ function(require) {
 					$(this).parent('li').find('.toggle.reply-count')
 						.html($(this).children('li').length + ' replies');
 
-                    //display child comment count
-					//var item = $(this).parent('li');
-					//var showReplies = '';
-					//showReplies = item.find('.toggle.reply-button span.reply-text').text();
-                    //var showReplies2 = showReplies.replace('##', $(this).children('li').length.toString());
-                    //console.log('showReplies:',  showReplies2);
-                    // item.find('.toggle.reply-button span.reply-text').text(showReplies);
-					$(this).parent('li').find('.toggle.reply-button')
-						.html('<i class="material-icons">arrow_downward</i><i class="material-icons hidden">arrow_upward</i> Show ' + $(this).children('li').length + ' replies');
+                    $(this)
+                        .parent('li')
+                        .find('.toggle.reply-button')
+						.find('.show-replies')
+                        .html('Show ' + $(this).children('li').length + ' replies'); //display child comment count
 				});
 		},
 
@@ -124,8 +167,9 @@ function(require) {
                 return null;
             }
 
-			var name = Adapt.fullName;
-            var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
+            var username = (Adapt.firebase.user.isAnonymous) ? "Anonymous" : Adapt.firebase.user.displayName;
+			var name = Adapt.firebase.user.uid;
+            var ref = Adapt.firebase.database.ref('chat/' + this.model.get('_firebaseID'));
 			var upVotesMod = ref.child(id).child('upvotesMod');
 			var post = this.$el.find('#commentTemplate')
 				.clone()
@@ -158,7 +202,7 @@ function(require) {
 
 			// check if we are the admin or moderator
 			// remove the Delete button
-            if (Adapt.fullName !== 'Admin')
+            if (Adapt.firebase.user.uid !== 'admin')
             {
                 post.find('.delete').remove();
             }
@@ -166,10 +210,11 @@ function(require) {
 			post.find('span.user-votes').attr('id', id);
 			post.find('span.user-votes').text(comment.upvotes);
 			post.find('span.user-location').text(comment.location);
-			post.find('i.upvote').attr('data-id', id);
-			post.find('i.downvote').attr('data-id', id);
+			post.find('div.upvote').attr('data-id', id);
+			post.find('div.downvote').attr('data-id', id);
+            post.find('span.user-date').text(justDate);
 			post.find('span.user-time').text(justTime);
-			post.find('span.user-date').text(justDate);
+			post.find('span.user-name > .username-text').text(username);
 			post.find('p.user-comment').text(comment.comment);
 
 			if (upVotesMod)
@@ -179,12 +224,7 @@ function(require) {
 					var voteSnapshot = snapshot.child(name).val();
 					if (voteSnapshot === 1)
 					{
-						post.find('i.upvote').first()
-							.text('favorite');
-						post.find('i.upvote').first()
-							.addClass('red-text-color');
-						post.find('span.user-votes').first()
-							.addClass('red-text-color');
+						post.find('div.upvote').addClass('active');
 					}
 				});
 			}
@@ -202,20 +242,28 @@ function(require) {
             }
 
 			var that = this;
-			var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
-            var name = Adapt.fullName;
-			var location = Adapt.userLocation;
-			var ldap = Adapt.userLDAP;
+			var ref = Adapt.firebase.database.ref('chat/' + this.model.get('_firebaseID'));
+            var name = Adapt.firebase.user.uid;
+			var location = "local";
+			var ldap = Adapt.firebase.LDAP;
 			var time = this.timeStamp();
 			var $input = $(ev.currentTarget).prev('input');
 			var comment = $input.val();
+
+            // check if we have an empty field
+			if (comment.length == 0)
+			{
+                $input.addClass('error');
+       			return;
+			}
+
 			var parent = $input.closest('[data-id]').attr('data-id') || null;
 			var childposts = $input.closest('[data-id]').find('span.toggle:first')
 				.text() || null;
 
 			var childcount = parseInt(childposts, 10) + 1 || null;
 
-			if (parent && parent.indexOf('c-') >= 0) parent = null;
+			if (parent && parent.indexOf(this.model.get('_id')) >= 0) parent = null;
 
 			if (comment)
 			{
@@ -242,13 +290,10 @@ function(require) {
 			$input.val('');
 
 			// automate submit if required
-			if ($(ev.target).hasClass('first-submit-btn'))
-			{
-				setTimeout(function()
-				{
-					$(".sortTime").trigger("click");
-	            }, 2000);
-			}
+            setTimeout(function()
+            {
+                $(".sortTime").trigger("click");
+            }, 1000);
 
 			return false;
 		},
@@ -257,7 +302,7 @@ function(require) {
 		{
             if (this.isFirebaseEnabled)
 			{
-                var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
+                var ref = Adapt.firebase.database.ref('chat/' + this.model.get('_firebaseID'));
                 var id = $(ev.currentTarget).closest('li').data('id');
                 ref.child(id).remove();
                 this.$el.find(ev.currentTarget).closest('li').hide();
@@ -274,15 +319,15 @@ function(require) {
                 return null;
             }
 
-			var parent = this;
+      		var parent = this;
             var pointsData = parent.pointsData;
             var id = $(ev.currentTarget).data('id');
             var stringID = $(ev.currentTarget).attr('data-id');
-            var obj = pointsData.filter(function(x) { return x.id === stringID; });
+			var obj = pointsData.filter(function(x) { return x.id === stringID; });
             let index = pointsData.indexOf(obj);
 
-            var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
-            var name = Adapt.fullName;
+            var ref = Adapt.firebase.database.ref('chat/' + this.model.get('_firebaseID'));
+            var name = Adapt.firebase.user.uid;
 
             var upvotesRef = ref.child(id + '/upvotes');
             var upvotesMod = ref.child(id + '/upvotesMod/');
@@ -302,14 +347,8 @@ function(require) {
                         return 0;
                     });
 
-                    this.$(ev.currentTarget).closest('i.upvote')
-                        .text('favorite_border');
-
-                    this.$(ev.currentTarget).closest('i.upvote')
-                        .removeClass('red-text-color bump');
-
-                    this.$(ev.currentTarget).next('span.user-votes')
-                        .removeClass('red-text-color');
+                    this.$(ev.currentTarget).closest('div.upvote')
+                        .removeClass('active');
 
                     upvotesRef.transaction(function(currentRank)
 					{
@@ -326,14 +365,8 @@ function(require) {
                         return 1;
                     });
 
-                    this.$(ev.currentTarget).closest('i.upvote')
-                        .text('favorite');
-
-                    this.$(ev.currentTarget).closest('i.upvote')
-                        .addClass('red-text-color bump');
-
-                    this.$(ev.currentTarget).next('span.user-votes')
-                        .addClass('red-text-color');
+                    this.$(ev.currentTarget).closest('div.upvote')
+                        .addClass('active');
 
                     upvotesRef.transaction(function(currentRank)
 					{
@@ -361,7 +394,7 @@ function(require) {
 		{
 			if (event.target && event.target.className == 'toggleReply')
 			{
-				var next = event.target.nextElementSibling;
+        		var next = event.target.nextElementSibling;
 				if (next.style.display == 'none')
 				{
 					this.$el.find('form.subComments').slideUp(150);
@@ -424,7 +457,7 @@ function(require) {
             if (this.isFirebaseEnabled)
             {
                 var parent = this;
-                var ref = Adapt.fb.ref('chat/' + this.model.get('_firebaseID'));
+                var ref = Adapt.firebase.database.ref('chat/' + this.model.get('_firebaseID'));
                 ref.on('child_added', function(snapshot)
                 {
                     if (snapshot.exists())
