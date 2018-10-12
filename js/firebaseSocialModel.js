@@ -6,8 +6,6 @@ define([
 
         init: function() {
             ComponentModel.prototype.init.call(this);
-
-			console.log("FirebaseSocialModel")
         }
 
     });

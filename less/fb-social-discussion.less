@@ -1,9 +1,15 @@
 .fb-social-discussion-component {
 
+    @import (less) "fontawesome.css";
+
     @fb-social-color: #f1453d;
     @fb-social-primary-color: #6d00ce;
 
     font-family: @font-family;
+
+    .component-body {
+        text-align: center;
+    }
 
     .fb-btn-transition {
         -webkit-transition: all .35s ease-in-out;
@@ -16,7 +22,6 @@
         display: inline-block;
         margin: 0;
         padding: 15px;
-        border: none;
         box-shadow: 0px 0px 13px 1px rgba(0, 0, 0, 0.075);
         border-radius: 4px;
         border: 1px solid lighten(@black, 40%);
@@ -102,6 +107,43 @@
 
             .social-comment-box {
 
+                .sortTime, .sortVotes {
+                    &.hidden { display:none; }
+                }
+
+                #comments {
+                    &.hidden {
+                        display:none;
+                        overflow: hidden;
+                    }
+                }
+
+                .no-items-found {
+                    &.hidden { display:none; }
+
+                    padding: 10px 10px 10px 10px;
+                    width: 97%;
+                    margin: 20px auto;
+                    border: 1px solid lighten(@black, 40%);
+                    border-radius: 4px;
+                    background-color: @white;
+                    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.075);
+
+                    @media all and (max-width: @device-width-small) {
+                        width: 94%;
+                    }
+
+                    .no-items-found-inner {
+                        position: relative;
+                        .no-items-found-inner-body {
+                            font-size: 24px;
+                            color: @black;
+                            padding: 5%;
+                            text-align: center;
+                        }
+                    }
+                }
+
                 #commentTemplate {
                     display: none;
                 }
@@ -129,6 +171,29 @@
                     .sub-comments { // ul
                         list-style: none;
                         margin-top: 6px;
+
+                        li:first-child {
+                            border-top: 5px solid #ebc6fe;
+                        }
+
+                        li {
+                            padding-top: 20px;
+                        }
+
+                        li .showReplies,
+                        li .toggleReply {
+                            display: none;
+                        }
+
+                        li .user-description {
+
+                            .vote-top {
+                                .reply-count {
+                                    display: none!important;
+                                }
+                            }
+
+                        }
                     }
 
                     // USER DESCRIPTION
@@ -300,6 +365,17 @@
                         float: right;
                         cursor: pointer;
 
+                        &.is-open {
+                            .f-icon {
+                                &.icon-arrow-up {
+                                    display: inline;
+                                }
+                                &.icon-arrow-down {
+                                    display: none;
+                                }
+                            }
+                        }
+
                         &.toggle {
 
                         }
@@ -312,6 +388,12 @@
 
                         .f-icon {
                             margin: auto 4px;
+                            &.icon-arrow-up {
+                                display: none;
+                            }
+                            &.icon-arrow-down {
+                                display: inline;
+                            }
                         }
 
                         &:hover {

@@ -1,4 +1,4 @@
-<div class="fb-social-discussion-inner component-inner " ga-on="mouseover" ga-event-category="Social Component" ga-event-action="Mouseover" ga-event-label="Mouseover Social Component">
+<div class="fb-social-discussion-inner component-inner ">
     {{> component this}}
 	<div class="social-comment-form">
 		<form class="comment-form" action="#" onsubmit="event.preventDefault();">
@@ -16,7 +16,15 @@
 		
 			<ul id="comments" style="max-height:684px" data-id="{{_id}}"></ul>
 			<!-- End of comments -->
-			
+
+			<div class="no-items-found hidden">
+			    <div class="no-items-found-inner">
+			        <div class="no-items-found-inner-body">
+			            No discussions found. Be the first to comment!
+			        </div>
+            	</div>
+			</div>
+
 			<li id="commentTemplate">
 				<div class="user-description">
 						<div class="vote vote-top">
@@ -52,9 +60,9 @@
 						</div>
 					</div>
 					<!-- End of vote-bottom -->
-					<span class="toggle reply-button">
+					<span class="toggle showReplies reply-button is-open">
 					    <span class="f-icon icon-arrow-down"></span>
-					    <span class="f-icon icon-arrow-up hidden"></span>
+					    <span class="f-icon icon-arrow-up"></span>
 						<span class="show-replies">SHOW REPLIES</span>
 					</span>
 					<span class="toggleReply">
@@ -66,7 +74,7 @@
 						<input id="comment" type="text" placeholder="Reply to post" required="">
 						<button class="subComment">REPLY</button>
 					</form>
-					<ul class="sub-comments"></ul>			
+					<ul class="sub-comments"></ul>
 			</li>
 			<!-- End of commentTemplate -->
 		
